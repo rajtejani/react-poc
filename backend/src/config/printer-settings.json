@@ -1,0 +1,11 @@
+{
+  "name": "Main Counter Printer",
+  "type": "STAR",
+  "interfaceType": "tcp",
+  "ip": "127.0.0.1",
+  "port": 9100,
+  "devicePath": "/dev/ttyS1",
+  "driverName": "Star-POS",
+  "characterSet": "PC852_LATIN2",
+  "width": "58mm"
+}

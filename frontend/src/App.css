@@ -1,0 +1,1339 @@
+/* General Page & Body Settings */
+:root {
+  --app-bg: #f8fafc;
+  --panel-bg: #ffffff;
+  --border-color: #e2e8f0;
+  --text-main: #334155;
+  --text-dark: #0f172a;
+  --text-light: #64748b;
+  --accent-color: #dc2626;
+  /* Primary Red from POS screenshot */
+  --accent-light: #fef2f2;
+  --success-color: #10b981;
+  --success-light: #ecfdf5;
+  --warning-color: #f59e0b;
+  --warning-light: #fffbeb;
+
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+}
+
+#root {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  border-inline: none !important;
+  text-align: left !important;
+  min-height: 100vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+body {
+  margin: 0;
+  background-color: var(--app-bg);
+  color: var(--text-main);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Sidebar & Desktop Layout wrapper */
+.app-layout-wrapper {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+
+.app-sidebar {
+  width: 260px;
+  background-color: var(--panel-bg);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  padding: 24px 16px;
+  box-sizing: border-box;
+}
+
+/* Sidebar branding logo */
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding: 0 8px;
+}
+
+.brand-icon-wrapper {
+  width: 38px;
+  height: 38px;
+  background-color: var(--accent-color);
+  color: #ffffff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  box-shadow: 0 2px 4px rgba(220, 38, 38, 0.2);
+}
+
+.brand-meta {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.brand-name {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text-dark);
+}
+
+.brand-tagline {
+  font-size: 11px;
+  color: var(--text-light);
+}
+
+/* Server Status info panel */
+.sidebar-server-status {
+  background-color: var(--app-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 24px;
+  text-align: left;
+}
+
+.status-indicator-badge {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.server-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+}
+
+.badge-online {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--success-color);
+}
+
+.badge-server-offline {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--warning-color);
+}
+
+.server-ip {
+  font-family: monospace;
+  font-size: 12px;
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+/* Sidebar Navigation items */
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-grow: 1;
+}
+
+.menu-item-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease-in-out;
+}
+
+.menu-item-btn:hover {
+  background-color: var(--app-bg);
+  color: var(--text-dark);
+}
+
+.menu-item-btn.active {
+  background-color: var(--accent-light);
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+.menu-icon {
+  font-size: 16px;
+}
+
+.sidebar-footer {
+  border-top: 1px solid var(--border-color);
+  padding-top: 16px;
+  font-size: 12px;
+  color: var(--text-light);
+  text-align: left;
+  padding-left: 8px;
+}
+
+/* Viewport Area containing Top header and Content tab */
+.app-main-viewport {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.viewport-header {
+  height: 64px;
+  background-color: var(--panel-bg);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.header-breadcrumbs {
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.breadcrumb-parent {
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.breadcrumb-separator {
+  color: var(--border-color);
+}
+
+.breadcrumb-current {
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.pill-connected {
+  background-color: var(--success-light);
+  color: var(--success-color);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.pill-disconnected {
+  background-color: var(--accent-light);
+  color: var(--accent-color);
+  border: 1px solid rgba(220, 38, 38, 0.15);
+}
+
+.pill-server-down {
+  background-color: var(--warning-light);
+  color: var(--warning-color);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.pill-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+.pill-connected .pill-dot {
+  animation: pulseGreen 2s infinite;
+}
+
+.viewport-content {
+  flex-grow: 1;
+  padding: 32px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/* Dashboard Modules Styling */
+.dashboard-view-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.view-title-block {
+  text-align: left;
+  margin-bottom: 8px;
+}
+
+.view-title-block h2 {
+  font-size: 22px;
+  color: var(--text-dark);
+  margin: 0;
+  font-weight: 700;
+}
+
+.view-subtitle {
+  font-size: 14px;
+  color: var(--text-light);
+  margin-top: 4px;
+}
+
+.dashboard-card {
+  text-align: left;
+}
+
+.card {
+  background-color: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  box-sizing: border-box;
+}
+
+/* LAN Discovery Card details */
+.discovery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.discovery-title-area {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.discovery-icon {
+  font-size: 24px;
+  background-color: var(--accent-light);
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.discovery-header h3 {
+  font-size: 16px;
+  color: var(--text-dark);
+  margin: 0;
+  font-weight: 700;
+}
+
+.discovery-desc {
+  font-size: 13px;
+  color: var(--text-light);
+  margin-top: 4px;
+}
+
+.scanner-placeholder {
+  margin-top: 20px;
+  background-color: var(--app-bg);
+  border: 1px dashed var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+.scanner-progress-bar {
+  margin-top: 20px;
+  height: 6px;
+  background-color: var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: var(--accent-color);
+  width: 0%;
+  border-radius: 4px;
+}
+
+.animated-progress {
+  animation: progressAnimation 2s ease-in-out forwards;
+}
+
+@keyframes progressAnimation {
+  0% {
+    width: 0%;
+  }
+
+  100% {
+    width: 100%;
+  }
+}
+
+.scan-result-panel {
+  margin-top: 16px;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.scan-result-panel.success {
+  background-color: var(--success-light);
+  color: var(--success-color);
+}
+
+.scan-result-panel.warning {
+  background-color: var(--app-bg);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+}
+
+/* Connected Devices setup card */
+.card-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 14px;
+  margin-bottom: 16px;
+}
+
+.card-header-row h3 {
+  font-size: 16px;
+  margin: 0;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.no-device-placeholder {
+  padding: 32px;
+  text-align: center;
+  color: var(--text-light);
+}
+
+.no-device-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+  color: var(--border-color);
+}
+
+.no-device-placeholder h4 {
+  font-size: 15px;
+  color: var(--text-dark);
+  margin: 0 0 4px;
+}
+
+.no-device-placeholder p {
+  font-size: 13px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Presets information styling */
+.presets-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.presets-icon {
+  font-size: 20px;
+  color: var(--text-light);
+}
+
+.presets-header h3 {
+  font-size: 16px;
+  color: var(--text-dark);
+  margin: 0;
+  font-weight: 700;
+}
+
+.presets-intro {
+  font-size: 13px;
+  color: var(--text-light);
+  margin: 0 0 20px;
+}
+
+.presets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.preset-item-card {
+  background-color: var(--app-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.preset-item-card h4 {
+  font-size: 14px;
+  color: var(--text-dark);
+  margin: 0 0 6px;
+  font-weight: 700;
+}
+
+.preset-item-card p {
+  font-size: 12px;
+  color: var(--text-light);
+  margin: 0;
+  line-height: 145%;
+}
+
+/* Buttons System */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  box-sizing: border-box;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background-color: var(--accent-color);
+  color: #ffffff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #b91c1c;
+}
+
+.btn-secondary {
+  background-color: #f1f5f9;
+  color: var(--text-dark);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: #e2e8f0;
+}
+
+.btn-success {
+  background-color: var(--success-color);
+  color: #ffffff;
+}
+
+.btn-success:hover:not(:disabled) {
+  background-color: #059669;
+}
+
+.btn-danger {
+  background-color: var(--accent-color);
+  color: #ffffff;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background-color: #b91c1c;
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+}
+
+.btn-outline:hover:not(:disabled) {
+  background-color: var(--app-bg);
+  color: var(--text-dark);
+}
+
+.btn-sm {
+  font-size: 11px;
+  padding: 5px 10px;
+}
+
+.btn-large {
+  font-size: 14px;
+  padding: 12px 24px;
+}
+
+.btn-full-width {
+  width: 100%;
+}
+
+/* Spinner helper */
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #ffffff;
+  animation: spin 0.8s linear infinite;
+  /* display: inline-block; */
+  margin-right: 6px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Printer Status component inside Connected setup */
+.printer-status-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.status-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-header h2 {
+  font-size: 15px;
+  margin: 0;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.status-error-alert {
+  background-color: var(--accent-light);
+  border: 1px solid rgba(220, 38, 38, 0.15);
+  border-radius: 8px;
+  padding: 12px 16px;
+  display: flex;
+  gap: 12px;
+  color: var(--accent-color);
+}
+
+.alert-title {
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.alert-msg {
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.active-job-alert {
+  background-color: var(--success-light);
+  color: var(--success-color);
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  background-color: var(--app-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.detail-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+}
+
+.detail-label {
+  font-size: 11px;
+  color: var(--text-light);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.detail-value {
+  font-size: 13px;
+  color: var(--text-dark);
+  font-weight: 700;
+}
+
+.status-actions-deck {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.action-row-split {
+  display: flex;
+  gap: 10px;
+}
+
+/* Receipt Builder Layout */
+.receipt-builder-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 32px;
+  align-items: start;
+  text-align: left;
+}
+
+.panel-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  padding-bottom: 14px !important;
+  margin-bottom: 20px !important;
+}
+.panel-actions {
+  display: flex !important;
+  gap: 10px !important;
+}
+
+.panel-header h2 {
+  font-size: 18px;
+  color: var(--text-dark);
+  margin: 0;
+  font-weight: 700;
+}
+
+.builder-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-section h4 {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 16px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text-dark) !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
+.input-group {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.input-group label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-light) !important;
+  margin-bottom: 2px;
+  text-align: left;
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea {
+  border: 1px solid var(--border-color) !important;
+  background-color: var(--panel-bg) !important;
+  border-radius: 6px !important;
+  padding: 10px 14px !important;
+  font-size: 13px !important;
+  color: var(--text-dark) !important;
+  outline: none !important;
+  font-family: inherit !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.input-group input:focus,
+.input-group select:focus,
+.input-group textarea:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px var(--accent-light);
+}
+
+.add-item-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  background-color: var(--app-bg);
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 16px;
+}
+
+.items-list-table {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.list-header {
+  display: grid;
+  grid-template-columns: 1.5fr 0.5fr 1fr 1fr 40px;
+  background-color: var(--app-bg);
+  border-bottom: 1px solid var(--border-color);
+  font-weight: 700;
+  font-size: 12px;
+  padding: 10px 16px;
+  color: var(--text-dark);
+}
+
+.list-row {
+  display: grid;
+  grid-template-columns: 1.5fr 0.5fr 1fr 1fr 40px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 13px;
+  align-items: center;
+}
+
+.list-row:last-child {
+  border-bottom: none;
+}
+
+/* Realistic Paper Receipt Simulation */
+.receipt-preview-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.receipt-preview-header h3 {
+  font-size: 14px;
+  color: var(--text-dark);
+  margin: 0;
+  font-weight: 700;
+}
+
+.receipt-paper {
+  background-color: #fcfcf9;
+  border: 1px solid #e2e8f0;
+  color: #111111;
+  font-family: monospace;
+  font-size: 12px;
+  box-shadow: var(--shadow-md);
+  margin: 0 auto;
+}
+
+.paper-80mm {
+  width: 300px;
+}
+
+.paper-58mm {
+  width: 230px;
+  font-size: 11px;
+}
+
+.paper-edge-top {
+  height: 8px;
+  background-image: linear-gradient(135deg, var(--app-bg) 25%, transparent 25%),
+    linear-gradient(225deg, var(--app-bg) 25%, transparent 25%);
+  background-size: 16px 8px;
+  background-repeat: repeat-x;
+}
+
+.paper-edge-bottom {
+  height: 8px;
+  background-image: linear-gradient(45deg, var(--app-bg) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--app-bg) 25%, transparent 25%);
+  background-size: 16px 8px;
+  background-repeat: repeat-x;
+}
+
+.receipt-content {
+  padding: 24px 16px;
+}
+
+.receipt-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.receipt-address {
+  font-size: 11px;
+  line-height: 135%;
+  margin-bottom: 2px;
+}
+
+.receipt-phone {
+  font-size: 11px;
+}
+
+.receipt-divider {
+  border-top: 1px dashed #94a3b8;
+  margin: 12px 0;
+}
+
+.receipt-divider-thin {
+  border-top: 1px solid #cbd5e1;
+  margin: 8px 0;
+}
+
+.receipt-metadata {
+  font-size: 11px;
+  line-height: 150%;
+  margin-bottom: 8px;
+}
+
+.receipt-item-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.receipt-qty-badge {
+  color: #64748b;
+  font-size: 10px;
+}
+
+.receipt-discount-text {
+  color: var(--accent-color);
+}
+
+.receipt-grand-total {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.receipt-code-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin: 16px 0;
+}
+
+.mock-qrcode {
+  background: white;
+  padding: 6px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+.mock-barcode {
+  display: flex;
+  align-items: flex-end;
+  height: 38px;
+  background: white;
+  padding: 6px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  gap: 1.5px;
+}
+
+.barcode-line {
+  background-color: black;
+  height: 100%;
+}
+
+.barcode-line.w-1 {
+  width: 1.5px;
+}
+
+.barcode-line.w-2 {
+  width: 3px;
+}
+
+.barcode-line.w-3 {
+  width: 4.5px;
+}
+
+.barcode-line.w-4 {
+  width: 6px;
+}
+
+.receipt-code-label {
+  font-size: 10px;
+  color: var(--text-light);
+}
+
+/* Event Logs / Console Module */
+.print-history-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: left;
+}
+
+.terminal-console {
+  background-color: #0f172a;
+  border: 1px solid var(--text-dark);
+  border-radius: 10px;
+  padding: 16px;
+  height: 480px;
+  overflow: hidden;
+}
+
+.terminal-scroll-container {
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.terminal-line {
+  font-family: monospace;
+  font-size: 12px;
+  line-height: 150%;
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+
+.terminal-time {
+  color: #64748b;
+  margin-right: 8px;
+}
+
+.terminal-level {
+  font-weight: 700;
+  margin-right: 8px;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-size: 10px;
+}
+
+.log-level-info {
+  background: rgba(59, 130, 246, 0.25);
+  color: #93c5fd;
+}
+
+.log-level-warn {
+  background: rgba(245, 158, 11, 0.25);
+  color: #fde047;
+}
+
+.log-level-error {
+  background: rgba(239, 68, 68, 0.25);
+  color: #fca5a5;
+}
+
+.log-level-debug {
+  background: rgba(148, 163, 184, 0.25);
+  color: #cbd5e1;
+}
+
+.terminal-message {
+  color: #f1f5f9;
+}
+
+/* Printer Settings Panel */
+.printer-settings-container {
+  text-align: left;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 768px) {
+  .settings-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+.settings-section h3 {
+  font-size: 15px;
+  color: var(--text-dark);
+  font-weight: 700;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 10px;
+  margin: 0 0 16px;
+}
+
+.settings-tip {
+  background-color: var(--app-bg);
+  border-left: 3px solid var(--accent-color);
+  border-radius: 0 8px 8px 0;
+  padding: 12px;
+  font-size: 12px;
+  color: var(--text-light);
+  line-height: 145%;
+}
+
+.settings-footer-actions {
+  border-top: 1px solid var(--border-color);
+  padding-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Toast Floating Alerts styling */
+.toast-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.toast-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 14px 20px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+  font-size: 13px;
+  font-weight: 600;
+  min-width: 280px;
+}
+
+.toast-success {
+  border-left: 4px solid var(--success-color);
+  color: var(--text-dark);
+}
+
+.toast-error {
+  border-left: 4px solid var(--accent-color);
+  color: var(--text-dark);
+}
+
+.toast-info {
+  border-left: 4px solid #3b82f6;
+  color: var(--text-dark);
+}
+
+.toast-close-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-light);
+}
+
+/* Animations */
+.animated-slide-in {
+  animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulseGreen {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5);
+  }
+
+  70% {
+    box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+/* Subnet Scanner & Discovery Styling */
+.scanner-status-area {
+  margin-top: 20px;
+}
+
+.scanner-details-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+.scanner-details-ip {
+  font-family: monospace;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.scanner-details-percent {
+  font-weight: 700;
+  color: var(--accent-color);
+}
+
+.scan-results-container {
+  margin-top: 24px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 20px;
+}
+
+.scan-results-summary-text {
+  font-size: 13px;
+  color: var(--text-light);
+  margin-bottom: 16px;
+}
+
+.printer-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.printer-discovery-card {
+  display: flex;
+  align-items: center;
+  background-color: var(--app-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  gap: 14px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.printer-discovery-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: #cbd5e1;
+}
+
+.printer-discovery-card.active-target {
+  background-color: var(--success-light);
+  border-color: rgba(16, 185, 129, 0.3);
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.08);
+}
+
+.printer-discovery-icon {
+  font-size: 24px;
+  background-color: var(--panel-bg);
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.printer-discovery-details {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  text-align: left;
+}
+
+.printer-ip-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  color: var(--text-light);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.printer-ip-value {
+  font-family: monospace;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-top: 2px;
+}
+
+.printer-meta-badges {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.badge-port {
+  font-size: 10px;
+  background-color: var(--panel-bg);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.badge-latency {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.badge-latency.fast {
+  background-color: var(--success-light);
+  color: var(--success-color);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.badge-latency.medium {
+  background-color: var(--warning-light);
+  color: var(--warning-color);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.badge-latency.slow {
+  background-color: var(--accent-light);
+  color: var(--accent-color);
+  border: 1px solid rgba(220, 38, 38, 0.15);
+}
+
+.printer-discovery-actions {
+  display: flex;
+  align-items: center;
+}
+
+.badge-connected-status {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--success-color);
+  background-color: rgba(16, 185, 129, 0.1);
+  padding: 4px 8px;
+  border-radius: 20px;
+}
