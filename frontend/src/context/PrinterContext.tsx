@@ -28,12 +28,12 @@ interface PrinterContextType {
   notifications: Notification[];
   showNotification: (type: "success" | "error" | "info", message: string) => void;
   dismissNotification: (id: string) => void;
-  
+
   // Service controls
   connectPrinter: () => Promise<void>;
   disconnectPrinter: () => Promise<void>;
   updateSettings: (newSettings: PrinterSettings) => Promise<void>;
-  
+
   // Printing methods
   printTestPage: () => Promise<void>;
   printRawText: (params: PrintTextParams) => Promise<void>;
@@ -76,20 +76,41 @@ export const PrinterProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [scanProgress, setScanProgress] = useState<number>(0);
   const [scanCurrentIp, setScanCurrentIp] = useState<string>("");
   const [scanSubnet, setScanSubnet] = useState<string>("");
-  
+
   const wsRef = useRef<WebSocket | null>(null);
   const reconnectTimeoutRef = useRef<number | null>(null);
   // Flag to suppress onclose-triggered reconnect when WE intentionally closed the socket
   const intentionalCloseRef = useRef<boolean>(false);
+  // Track how many consecutive reconnect attempts have been made (for backoff)
+  const reconnectAttemptsRef = useRef<number>(0);
 
   // Separate state: is the backend *server* reachable via WebSocket?
   const [wsServerConnected, setWsServerConnected] = useState<boolean>(false);
+
+  // Helper: clear any pending reconnect timer
+  const clearReconnectTimer = () => {
+    if (reconnectTimeoutRef.current !== null) {
+      clearTimeout(reconnectTimeoutRef.current);
+      reconnectTimeoutRef.current = null;
+    }
+  };
+
+  // Helper: schedule a reconnect with simple backoff (2s → 4s → 8s, max 8s)
+  const scheduleReconnect = () => {
+    clearReconnectTimer();
+    const delay = Math.min(2000 * Math.pow(2, reconnectAttemptsRef.current), 8000);
+    reconnectAttemptsRef.current += 1;
+    reconnectTimeoutRef.current = window.setTimeout(() => {
+      intentionalCloseRef.current = false;
+      connectWebSocket();
+    }, delay);
+  };
 
   // Notification Helpers
   const showNotification = (type: "success" | "error" | "info", message: string) => {
     const id = Math.random().toString(36).substring(7);
     setNotifications((prev) => [...prev, { id, type, message }]);
-    
+
     setTimeout(() => {
       dismissNotification(id);
     }, 4000);
@@ -101,12 +122,16 @@ export const PrinterProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   // WebSocket connection logic
   const connectWebSocket = () => {
-    // Mark any previous socket as intentionally closed so its onclose
-    // handler does NOT schedule a redundant reconnect — this was the
-    // root cause of the "closed before connection established" error storm.
+    // Close any existing socket that is still open/connecting.
+    // Only mark intentional if the socket is actually open or connecting —
+    // calling close() on an already-CLOSED socket triggers onerror again
+    // which was the root cause of the reconnect loop.
     if (wsRef.current) {
-      intentionalCloseRef.current = true;
-      wsRef.current.close();
+      const state = wsRef.current.readyState;
+      if (state === WebSocket.OPEN || state === WebSocket.CONNECTING) {
+        intentionalCloseRef.current = true;
+        wsRef.current.close();
+      }
       wsRef.current = null;
     }
 
@@ -116,10 +141,10 @@ export const PrinterProvider: React.FC<{ children: React.ReactNode }> = ({ child
     let socket: WebSocket;
     try {
       socket = new WebSocket(wsUrl);
+      console.log("[WS] Attempting connection to", wsUrl);
     } catch (err) {
-      console.error("Failed to create WebSocket:", err);
-      // Schedule a retry
-      reconnectTimeoutRef.current = window.setTimeout(connectWebSocket, 5000);
+      console.error("[WS] Failed to create WebSocket:", err);
+      scheduleReconnect();
       return;
     }
 
@@ -127,11 +152,10 @@ export const PrinterProvider: React.FC<{ children: React.ReactNode }> = ({ child
     intentionalCloseRef.current = false;
 
     socket.onopen = () => {
+      console.log("[WS] Connected.");
+      reconnectAttemptsRef.current = 0; // reset backoff counter on success
+      clearReconnectTimer();
       setWsServerConnected(true);
-      if (reconnectTimeoutRef.current) {
-        clearTimeout(reconnectTimeoutRef.current);
-        reconnectTimeoutRef.current = null;
-      }
     };
 
     socket.onmessage = (event) => {
@@ -154,28 +178,28 @@ export const PrinterProvider: React.FC<{ children: React.ReactNode }> = ({ child
           setScanCurrentIp(data.currentIp);
         }
       } catch (err) {
-        console.error("Failed to parse WebSocket message:", err);
+        console.error("[WS] Failed to parse message:", err);
       }
     };
 
-    socket.onclose = () => {
+    socket.onclose = (event) => {
+      console.log(`[WS] Closed (code=${event.code}, intentional=${intentionalCloseRef.current}).`);
       setWsServerConnected(false);
-      // Only reconnect if this was NOT an intentional close from our own code
+      // Only schedule a reconnect if this close was NOT triggered by our own code
       if (!intentionalCloseRef.current) {
-        reconnectTimeoutRef.current = window.setTimeout(connectWebSocket, 5000);
+        scheduleReconnect();
       }
     };
 
-    socket.onerror = () => {
-      // Mark as intentional so onclose (which fires right after onerror)
-      // doesn't schedule a reconnect — we'll schedule our own controlled retry.
+    socket.onerror = (err) => {
+      console.warn("[WS] Error — will reconnect:", err);
+      // Suppress the onclose handler's reconnect attempt since we handle it here.
+      // onclose ALWAYS fires right after onerror.
       intentionalCloseRef.current = true;
       setWsServerConnected(false);
-      // Retry after a delay
-      reconnectTimeoutRef.current = window.setTimeout(() => {
-        intentionalCloseRef.current = false;
-        connectWebSocket();
-      }, 5000);
+      // Nullify ref immediately so connectWebSocket won't try to close a broken socket
+      wsRef.current = null;
+      scheduleReconnect();
     };
   };
 
@@ -205,12 +229,12 @@ export const PrinterProvider: React.FC<{ children: React.ReactNode }> = ({ child
     return () => {
       // Clean teardown — suppress reconnect scheduling on component unmount
       intentionalCloseRef.current = true;
-      if (reconnectTimeoutRef.current) {
-        clearTimeout(reconnectTimeoutRef.current);
-        reconnectTimeoutRef.current = null;
-      }
+      clearReconnectTimer();
       if (wsRef.current) {
-        wsRef.current.close();
+        const state = wsRef.current.readyState;
+        if (state === WebSocket.OPEN || state === WebSocket.CONNECTING) {
+          wsRef.current.close();
+        }
         wsRef.current = null;
       }
     };
